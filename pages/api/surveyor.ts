@@ -2,7 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import NextCors from "nextjs-cors"
 import prisma from "../../lib/prisma"
 
-export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<any>
+) {
   await NextCors(req, res, {
     // Options
     methods: ["GET", "PUT", "DELETE"],
