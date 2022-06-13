@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   await NextCors(req, res, {
-    methods: ["PUT"],
+    methods: ["POST", "PATCH"],
     origin: [
       "http://localhost:6006",
       "http://localhost:3000",
