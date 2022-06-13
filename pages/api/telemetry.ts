@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   await NextCors(req, res, {
-    methods: ["POST", "PATCH"],
+    methods: ["PUT"],
     origin: [
       "http://localhost:6006",
       "http://localhost:3000",
@@ -17,24 +17,13 @@ export default async function handler(
     optionsSuccessStatus: 200,
   })
 
-  if (req.method === "POST") {
+  if (req.method === "PUT") {
     try {
       const telemetry: Telemetry = req.body.telemetry
-      const response = await prisma.telemetry.create({
-        data: telemetry,
-      })
-      res.status(200).end(res.json(response))
-    } catch (error) {
-      res.json(error)
-      res.status(405).end()
-    }
-  }
-  if (req.method === "PATCH") {
-    try {
-      const telemetry: Telemetry = req.body.telemetry
-      const response = await prisma.telemetry.update({
+      const response = await prisma.telemetry.upsert({
         where: { id: telemetry.id },
-        data: telemetry,
+        update: { id: telemetry.id, data: telemetry.data },
+        create: telemetry,
       })
       res.status(200).end(res.json(response))
     } catch (error) {
