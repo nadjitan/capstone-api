@@ -5,7 +5,7 @@ import prisma from "../../lib/prisma"
 export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
   await NextCors(req, res, {
     // Options
-    methods: ["GET", "PUT"],
+    methods: ["PUT"],
     origin: [
       "http://localhost:6006",
       "http://localhost:3000",
@@ -15,26 +15,24 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
     optionsSuccessStatus: 200,
   })
 
-  if (req.method === "GET") {
+  if (req.method === "CREATE") {
     try {
-      const response = await prisma.telemetry.findMany()
-      // Parse data property since CockroachDB can only save STRING not JSON
-      const parsed = response.map(t => ({ ...t, data: JSON.parse(t.data) }))
-
-      res.json(parsed)
-      res.status(200).end()
+      const telemetry: Telemetry = req.body.telemetry
+      const response = await prisma.telemetry.create({
+        data: telemetry,
+      })
+      res.status(200).end(res.json(response))
     } catch (error) {
       res.json(error)
       res.status(405).end()
     }
   }
-  if (req.method === "PUT") {
+  if (req.method === "PATCH") {
     try {
       const telemetry: Telemetry = req.body.telemetry
-      const response = await prisma.telemetry.upsert({
+      const response = await prisma.telemetry.update({
         where: { id: telemetry.id },
-        update: { id: telemetry.id, data: telemetry.data },
-        create: telemetry,
+        data: telemetry,
       })
       res.status(200).end(res.json(response))
     } catch (error) {
