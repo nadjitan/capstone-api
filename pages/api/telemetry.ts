@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
     optionsSuccessStatus: 200,
   })
 
-  if (req.method === "CREATE") {
+  if (req.method === "POST") {
     try {
       const telemetry: Telemetry = req.body.telemetry
       const response = await prisma.telemetry.create({
