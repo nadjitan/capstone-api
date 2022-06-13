@@ -20,11 +20,14 @@ export default async function handler(
   if (req.method === "PUT") {
     try {
       const telemetry: Telemetry = req.body.telemetry
-      const response = await prisma.telemetry.upsert({
-        where: { id: telemetry.id },
-        update: { id: telemetry.id, data: telemetry.data },
-        create: telemetry,
-      })
+      const response = telemetry.id
+        ? await prisma.telemetry.update({
+            where: { id: telemetry.id },
+            data: telemetry,
+          })
+        : await prisma.telemetry.create({
+            data: telemetry,
+          })
       res.status(200).end(res.json(response))
     } catch (error) {
       res.json(error)
