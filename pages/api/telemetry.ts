@@ -28,7 +28,8 @@ export default async function handler(
         : await prisma.telemetry.create({
             data: telemetry,
           })
-      res.status(200).end(res.json(response))
+
+      res.status(200).end(telemetry.id ? response : res.json(response))
     } catch (error) {
       res.json(error)
       res.status(405).end()
