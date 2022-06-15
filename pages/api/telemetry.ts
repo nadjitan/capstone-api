@@ -20,6 +20,7 @@ export default async function handler(
   if (req.method === "PUT") {
     try {
       const telemetry: Telemetry = req.body.telemetry
+
       const response = telemetry.id
         ? await prisma.telemetry.update({
             where: { id: telemetry.id },

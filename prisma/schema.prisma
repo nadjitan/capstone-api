@@ -9,6 +9,5 @@ datasource db {
 
 model Telemetry {
   id   String @id @default(uuid())
-  app  String
   data String
 }
