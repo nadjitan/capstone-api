@@ -34,7 +34,12 @@ export default async function handler(
       const telemetry: Telemetry = req.body.telemetry
       const response = await prisma.telemetry.upsert({
         where: { id: telemetry.id },
-        update: { id: telemetry.id, data: telemetry.data },
+        update: {
+          id: telemetry.id,
+          data: telemetry.data,
+          startTime: telemetry.startTime,
+          endTime: telemetry.endTime,
+        },
         create: telemetry,
       })
       res.status(200).end(res.json(response))

@@ -24,7 +24,11 @@ export default async function handler(
       const response = telemetry.id
         ? await prisma.telemetry.update({
             where: { id: telemetry.id },
-            data: { data: telemetry.data },
+            data: {
+              data: telemetry.data,
+              startTime: telemetry.startTime,
+              endTime: telemetry.endTime,
+            },
           })
         : await prisma.telemetry.create({
             data: telemetry,

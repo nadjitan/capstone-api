@@ -10,6 +10,8 @@ datasource db {
 }
 
 model Telemetry {
-  id   String @id @default(uuid())
-  data String
+  id        String @id @default(uuid())
+  data      String @db.VarChar(400)
+  startTime String @db.VarChar(255)
+  endTime   String @db.VarChar(255)
 }
