@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   await NextCors(req, res, {
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
     origin: [
       "http://localhost:6006",
       "http://localhost:3000",
@@ -29,7 +29,7 @@ export default async function handler(
       res.status(405).end()
     }
   }
-  if (req.method === "PUT") {
+  if (req.method === "PATCH") {
     try {
       const telemetry: Telemetry = req.body.telemetry
       const response = await prisma.telemetry.upsert({
@@ -50,8 +50,9 @@ export default async function handler(
   }
   if (req.method === "DELETE") {
     try {
-      const response = await prisma.telemetry.delete({
-        where: { id: req.body.telemetry.id },
+      const ids: string[] = req.body.telemetries
+      const response = await prisma.telemetry.deleteMany({
+        where: { id: { in: ids } },
       })
       res.status(200).end(res.json(response))
     } catch (error) {
