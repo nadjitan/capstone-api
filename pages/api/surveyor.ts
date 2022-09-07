@@ -8,12 +8,7 @@ export default async function handler(
 ) {
   await NextCors(req, res, {
     methods: ["GET", "POST", "PATCH", "DELETE"],
-    origin: [
-      "http://localhost:6006",
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://capstone-demo-site.vercel.app/surveyor-client",
-    ],
+    origin: "*",
     optionsSuccessStatus: 200,
   })
 
