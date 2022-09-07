@@ -12,7 +12,7 @@ export default async function handler(
       "http://localhost:6006",
       "http://localhost:3000",
       "http://localhost:3001",
-      "https://capstone-demo-site.vercel.app",
+      "https://capstone-demo-site.vercel.app/surveyor-client",
     ],
     optionsSuccessStatus: 200,
   })
